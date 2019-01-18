@@ -3,7 +3,7 @@
    The Linux Programming Interface standard header file used by nearly all of programs in the project.
 */
 
-#ifdef TLPI_HDR_H
+#ifndef TLPI_HDR_H
 #define TLPI_HDR_H /* Prevent accidental double inclusion */
 
 #include <sys/types.h> /* Type definitions used by many programs */
