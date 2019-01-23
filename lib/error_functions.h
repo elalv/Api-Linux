@@ -7,6 +7,8 @@
 
 /* Error diagnostic routines */
 
+void errMsg(const char *format, ...);
+
 #ifdef __GNUC__
 
 /* This macro stops 'gcc -Wall' complaining that "control reaches

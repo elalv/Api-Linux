@@ -66,3 +66,20 @@ outputError(Boolean useErr, int err, Boolean flushStdout,
     fputs(buf, stderr);
     fflush(stderr); /* In case stderr is not line-buffered */
 }
+
+/* Display error message including 'errno' diagnostic, and
+   return to caller */
+
+void errMsg(const char *format, ...)
+{
+    va_list argList;
+    int savedErrno;
+
+    savedErrno = errno; /* In case we change it here */
+
+    va_start(argList, format);
+    outputError(TRUE, errno, TRUE, format, argList);
+    va_end(argList);
+
+    errno = savedErrno;
+}
