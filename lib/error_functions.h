@@ -20,4 +20,6 @@ void errMsg(const char *format, ...);
 #define NORETURN
 #endif
 
+void errExit(const char *format, ...) NORETURN;
+
 #endif

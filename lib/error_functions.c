@@ -83,3 +83,17 @@ void errMsg(const char *format, ...)
 
     errno = savedErrno;
 }
+
+/* Display error message including 'errno' diagnostic, and
+   terminate the process */
+
+void errExit(const char *format, ...)
+{
+    va_list argList;
+
+    va_start(argList, format);
+    outputError(TRUE, errno, TRUE, format, argList);
+    va_end(argList);
+
+    terminate(TRUE);
+}
