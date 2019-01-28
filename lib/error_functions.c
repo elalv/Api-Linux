@@ -123,3 +123,17 @@ void err_exit(const char *format, ...)
 
     terminate(FALSE);
 }
+
+/* The following function does the same as errExit(), but expects
+   the error number in 'errnum' */
+
+void errExitEN(int errnum, const char *format, ...)
+{
+    va_list argList;
+
+    va_start(argList, format);
+    outputError(TRUE, errnum, TRUE, format, argList);
+    va_end(argList);
+
+    terminate(TRUE);
+}
