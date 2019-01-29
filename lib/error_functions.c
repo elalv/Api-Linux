@@ -137,3 +137,16 @@ void errExitEN(int errnum, const char *format, ...)
 
     terminate(TRUE);
 }
+
+/* Print an error message (without an 'errno' diagnostic) */
+
+void fatal(const char *format, ...)
+{
+    va_list argList;
+
+    va_start(argList, format);
+    outputError(FALSE, 0, TRUE, format, argList);
+    va_end(argList);
+
+    terminate(TRUE);
+}
