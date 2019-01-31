@@ -28,4 +28,6 @@ void errExitEN(int errnum, const char *format, ...) NORETURN;
 
 void fatal(const char *format, ...) NORETURN;
 
+void usageErr(const char *format, ...) NORETURN;
+
 #endif

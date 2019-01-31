@@ -150,3 +150,20 @@ void fatal(const char *format, ...)
 
     terminate(TRUE);
 }
+
+/* Print a command usage error message and terminate the process */
+
+void usageErr(const char *format, ...)
+{
+    va_list argList;
+
+    fflush(stdout); /* Flush any pending stdout */
+
+    fprintf(stderr, "Usage: ");
+    va_start(argList, format);
+    vfprintf(stderr, format, argList);
+    va_end(argList);
+
+    fflush(stderr); /* In case stderr is not line-buffered */
+    exit(EXIT_FAILURE);
+}
