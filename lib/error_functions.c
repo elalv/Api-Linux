@@ -167,3 +167,21 @@ void usageErr(const char *format, ...)
     fflush(stderr); /* In case stderr is not line-buffered */
     exit(EXIT_FAILURE);
 }
+
+/* Diagnose an error in command-line arguments and
+   terminate the process */
+
+void cmdLineErr(const char *format, ...)
+{
+    va_list argList;
+
+    fflush(stdout); /* Flush any pending stdout */
+
+    fprintf(stderr, "Command-line usage error: ");
+    va_start(argList, format);
+    vfprintf(stderr, format, argList);
+    va_end(argList);
+
+    fflush(stderr); /* In case stderr is not line-buffered */
+    exit(EXIT_FAILURE);
+}
