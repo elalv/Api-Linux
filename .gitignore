@@ -1,3 +1,5 @@
 .vscode
 build
 lib/ename.c.inc
+lib/*.o
+libtlpi.a
