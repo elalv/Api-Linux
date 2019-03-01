@@ -1,2 +1,9 @@
-Installing library dependencies
--------------------------------
+## Method A - Build programs in individual directories
+
+1.  First, build the library used by all programs:
+
+```bash
+cd lib
+make
+# This will make libtlpi.a and place it in the parent directory
+```
