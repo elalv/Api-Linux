@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = mem_segments
+GEN_EXE = mem_segments necho
 
 LINUX_EXE =
 
