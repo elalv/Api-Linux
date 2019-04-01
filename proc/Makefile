@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = display_env mem_segments necho
 
-LINUX_EXE =
+LINUX_EXE = modify_env
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
