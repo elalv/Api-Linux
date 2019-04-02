@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = display_env mem_segments necho
+GEN_EXE = display_env longjmp mem_segments necho
 
 LINUX_EXE = modify_env
 
