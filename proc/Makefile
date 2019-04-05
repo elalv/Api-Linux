@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = display_env longjmp mem_segments necho setjmp_vars
+GEN_EXE = bad_longjmp display_env longjmp mem_segments necho setjmp_vars
 
 LINUX_EXE = modify_env
 
