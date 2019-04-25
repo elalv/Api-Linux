@@ -4,6 +4,7 @@
    and vice versa.
 */
 #include <pwd.h>
+#include <grp.h>
 #include "ugid_functions.h" /* Declares functions defined here */
 
 char * /* Return name corresponding to 'uid', or NULL on error */
@@ -34,4 +35,13 @@ userIdFromName(const char *name)
         return -1;
 
     return pwd->pw_uid;
+}
+
+char * /* Return name corresponding to 'gid', or NULL on error */
+groupNameFromId(gid_t gid)
+{
+    struct group *grp;
+
+    grp = getgrgid(gid);
+    return (grp == NULL) ? NULL : grp->gr_name;
 }
