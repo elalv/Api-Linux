@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_getpwent
+GEN_EXE = t_getpwent t_getpwnam_r
 
 LINUX_EXE = check_password
 
