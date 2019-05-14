@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = calendar_time
+GEN_EXE = calendar_time strtime
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
@@ -13,5 +13,5 @@ clean :
 
 showall :
 	@ echo ${EXE}
-	
+
 ${EXE} : ${TLPI_LIB}		# True as a rough approximation
