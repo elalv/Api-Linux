@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = calendar_time show_time strtime
+GEN_EXE = calendar_time show_time process_time strtime
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
@@ -13,5 +13,8 @@ clean :
 
 showall :
 	@ echo ${EXE}
+
+process_time_test: process_time_test.o
+	${CC} -o $@ process_time_test.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBRT}
 
 ${EXE} : ${TLPI_LIB}		# True as a rough approximation
