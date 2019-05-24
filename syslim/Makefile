@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_sysconf
+GEN_EXE = t_fpathconf t_sysconf
 
 LINUX_EXE =
 
