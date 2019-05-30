@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = t_uname
 
-LINUX_EXE = procfs_pidmax
+LINUX_EXE = procfs_pidmax procfs_user_exe
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
