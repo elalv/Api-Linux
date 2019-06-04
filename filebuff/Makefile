@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE =
+GEN_EXE = mix23_linebuff
 
 LINUX_EXE = direct_read
 
