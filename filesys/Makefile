@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE =
 
-LINUX_EXE = t_mount
+LINUX_EXE = t_statfs t_mount
 
 EXE = ${GEN_EXE} ${LINUX_EXE} 
 
