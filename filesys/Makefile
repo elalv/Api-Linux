@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE =
+GEN_EXE = t_statvfs
 
 LINUX_EXE = t_statfs t_mount
 
