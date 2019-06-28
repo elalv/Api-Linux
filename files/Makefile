@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_chown t_stat
+GEN_EXE = t_chown t_stat t_umask
 
 LINUX_EXE =
 
