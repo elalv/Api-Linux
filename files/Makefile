@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = t_chown t_stat t_umask
 
-LINUX_EXE =
+LINUX_EXE = chiflag
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
