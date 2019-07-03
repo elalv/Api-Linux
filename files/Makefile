@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_chown t_stat t_umask
+GEN_EXE = t_chown t_stat t_umask t_utime
 
 LINUX_EXE = chiflag
 
