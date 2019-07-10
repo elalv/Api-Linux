@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = 
 
-LINUX_EXE = xattr_view
+LINUX_EXE = t_setxattr xattr_view
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
