@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = 
 
-LINUX_EXE = acl_view
+LINUX_EXE = acl_update acl_view
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
