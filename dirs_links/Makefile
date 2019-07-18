@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_unlink
+GEN_EXE = list_files t_unlink
 
 LINUX_EXE =
 
