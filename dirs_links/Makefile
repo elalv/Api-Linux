@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = list_files nftw_dir_tree t_unlink view_symlink
+GEN_EXE = list_files nftw_dir_tree t_dirbasename t_unlink view_symlink
 
 LINUX_EXE =
 
