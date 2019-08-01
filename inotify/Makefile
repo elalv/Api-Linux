@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE =
 
-LINUX_EXE = demo_inotify
+LINUX_EXE = demo_inotify dnotify
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
