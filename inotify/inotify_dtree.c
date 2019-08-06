@@ -32,18 +32,51 @@
    - Pathnames longer than PATH_MAX are not handled.
 */
 #include <fcntl.h>
+#include <stdarg.h>
+#include <stdio.h>
 
+static int verboseMask;
 static char *stopFile;
+
+static FILE *logfp = NULL;
 
 /* Something went badly wrong. Create a 'stop' file to signal the
    'rand_dtree' processes to stop, dump a copy of the cache to the
    log file, and abort. */
 
-__attribute__ ((__noreturn__))
-static void
+__attribute__((__noreturn__)) static void
 createStopFileAndAbort(void)
 {
     open(stopFile, O_CREAT | O_RDWR, 0600);
     dumpCacheToLog();
     abort();
+}
+
+/* Write a log message. The message is sent to none, either, or both of
+   stderr and the log file, depending on 'vb_mask' and whether a log file
+   has been specified via command-line options . */
+
+static void
+logMessage(int vb_mask, const char *format, ...)
+{
+    va_list argList;
+
+    /* Write message to stderr if 'vb_mask' is zero, or matches one
+       of the bits in 'verboseMask' */
+
+    if ((vb_mask == 0) || (vb_mask & verboseMask))
+    {
+        va_start(argList, format);
+        vfprintf(stderr, format, argList);
+        va_end(argList);
+    }
+
+    /* If we have a log file, write the message there */
+
+    if (logfp != NULL)
+    {
+        va_start(argList, format);
+        vfprintf(logfp, format, argList);
+        va_end(argList);
+    }
 }
