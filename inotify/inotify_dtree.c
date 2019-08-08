@@ -31,9 +31,15 @@
 /* Known limitations
    - Pathnames longer than PATH_MAX are not handled.
 */
+#include <sys/inotify.h>
 #include <fcntl.h>
 #include <stdarg.h>
 #include <stdio.h>
+
+/* logMessage() flags */
+
+#define VB_BASIC 1 /* Basic messages */
+#define VB_NOISY 2 /* Verbose messages */
 
 static int verboseMask;
 static char *stopFile;
@@ -79,4 +85,47 @@ logMessage(int vb_mask, const char *format, ...)
         vfprintf(logfp, format, argList);
         va_end(argList);
     }
+}
+
+/***********************************************************************/
+
+/* Display some information about an inotify event. (Used when
+   when we are doing verbose logging.) */
+
+static void
+displayInotifyEvent(struct inotify_event *ev)
+{
+    logMessage(VB_NOISY, "==> wd = %d; ", ev->wd);
+    if (ev->cookie > 0)
+        logMessage(VB_NOISY, "cookie = %4d; ", ev->cookie);
+
+    logMessage(VB_NOISY, "mask = ");
+
+    if (ev->mask & IN_ISDIR)
+        logMessage(VB_NOISY, "IN_ISDIR ");
+
+    if (ev->mask & IN_CREATE)
+        logMessage(VB_NOISY, "IN_CREATE ");
+
+    if (ev->mask & IN_DELETE_SELF)
+        logMessage(VB_NOISY, "IN_DELETE_SELF ");
+
+    if (ev->mask & IN_MOVE_SELF)
+        logMessage(VB_NOISY, "IN_MOVE_SELF ");
+    if (ev->mask & IN_MOVED_FROM)
+        logMessage(VB_NOISY, "IN_MOVED_FROM ");
+    if (ev->mask & IN_MOVED_TO)
+        logMessage(VB_NOISY, "IN_MOVED_TO ");
+
+    if (ev->mask & IN_IGNORED)
+        logMessage(VB_NOISY, "IN_IGNORED ");
+    if (ev->mask & IN_Q_OVERFLOW)
+        logMessage(VB_NOISY, "IN_Q_OVERFLOW ");
+    if (ev->mask & IN_UNMOUNT)
+        logMessage(VB_NOISY, "IN_UNMOUNT ");
+
+    logMessage(VB_NOISY, "\n");
+
+    if (ev->len > 0)
+        logMessage(VB_NOISY, "        name = %s\n", ev->name);
 }
