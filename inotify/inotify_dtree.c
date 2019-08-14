@@ -1445,3 +1445,95 @@ usageError(const char *pname)
 
     exit(EXIT_FAILURE);
 }
+
+int main(int argc, char *argv[])
+{
+    fd_set rfds;
+    int opt;
+    int inotifyFd;
+
+    /* Parse command-line options */
+
+    verboseMask = 0;
+    checkCache = 0;
+    dumpCache = 0;
+    stopFile = NULL;
+    abortOnCacheProblem = 0;
+
+    while ((opt = getopt(argc, argv, "a:dxl:v:b:")) != -1)
+    {
+        switch (opt)
+        {
+
+        case 'a':
+            abortOnCacheProblem = 1;
+            stopFile = optarg;
+            break;
+
+        case 'x':
+            checkCache = 1;
+            break;
+
+        case 'd':
+            dumpCache = 1;
+            break;
+
+        case 'v':
+            verboseMask = atoi(optarg);
+            break;
+
+        case 'b':
+            readBufferSize = atoi(optarg);
+            break;
+
+        case 'l':
+            logfp = fopen(optarg, "w+");
+            if (logfp == NULL)
+                errExit("fopen");
+            setbuf(logfp, NULL);
+            break;
+
+        default:
+            usageError(argv[0]);
+        }
+    }
+
+    if (optind >= argc)
+        usageError(argv[0]);
+
+    /* Save a copy of the directories on the command line */
+
+    copyRootDirPaths(&argv[optind]);
+
+    /* Create an inotify instance and populate it with entries for
+       directory named on command line */
+
+    inotifyFd = reinitialize(-1);
+
+    /* Loop to handle inotify events and keyboard commands */
+
+    printf("%s> ", argv[0]);
+    fflush(stdout);
+
+    for (;;)
+    {
+        FD_ZERO(&rfds);
+        FD_SET(STDIN_FILENO, &rfds);
+        FD_SET(inotifyFd, &rfds);
+        if (select(inotifyFd + 1, &rfds, NULL, NULL, NULL) == -1)
+            errExit("select");
+
+        if (FD_ISSET(STDIN_FILENO, &rfds))
+        {
+            executeCommand(&inotifyFd);
+
+            printf("%s> ", argv[0]);
+            fflush(stdout);
+        }
+
+        if (FD_ISSET(inotifyFd, &rfds))
+            processInotifyEvents(&inotifyFd);
+    }
+
+    exit(EXIT_SUCCESS);
+}
