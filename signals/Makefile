@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = ouch
+GEN_EXE = intquit ouch
 
 LINUX_EXE =
 
@@ -23,6 +23,9 @@ allgen : ${GEN_EXE}
 
 ouch : ouch.c
 	${CC} -D_BSD_SOURCE -o $@ ouch.c ${CFLAGS} ${IMPL_LDLIBS}
+
+intquit : intquit.c
+	${CC} -D_BSD_SOURCE -o $@ intquit.c ${CFLAGS} ${IMPL_LDLIBS}
 
 clean : 
 	${RM} ${EXE} *.o
