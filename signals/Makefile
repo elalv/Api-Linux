@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = intquit ouch
+GEN_EXE = intquit ouch t_kill
 
 LINUX_EXE =
 
