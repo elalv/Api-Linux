@@ -2,3 +2,12 @@
 
    Header file for signal_functions.c.
 */
+#ifndef SIGNAL_FUNCTIONS_H
+#define SIGNAL_FUNCTIONS_H
+
+#include <signal.h>
+#include "tlpi_hdr.h"
+
+void printSigset(FILE *of, const char *ldr, const sigset_t *mask);
+
+#endif
