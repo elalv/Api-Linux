@@ -31,3 +31,19 @@ printSigset(FILE *of, const char *prefix, const sigset_t *sigset)
     if (cnt == 0)
         fprintf(of, "%s<empty signal set>\n", prefix);
 }
+
+int /* Print mask of blocked signals for this process */
+printSigMask(FILE *of, const char *msg)
+{
+    sigset_t currMask;
+
+    if (msg != NULL)
+        fprintf(of, "%s", msg);
+
+    if (sigprocmask(SIG_BLOCK, NULL, &currMask) == -1)
+        return -1;
+
+    printSigset(of, "\t\t", &currMask);
+
+    return 0;
+}
