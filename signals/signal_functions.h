@@ -12,4 +12,6 @@ void printSigset(FILE *of, const char *ldr, const sigset_t *mask);
 
 int printSigMask(FILE *of, const char *msg);
 
+int printPendingSigs(FILE *of, const char *msg);
+
 #endif

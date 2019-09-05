@@ -47,3 +47,19 @@ printSigMask(FILE *of, const char *msg)
 
     return 0;
 }
+
+int /* Print signals currently pending for this process */
+printPendingSigs(FILE *of, const char *msg)
+{
+    sigset_t pendingSigs;
+
+    if (msg != NULL)
+        fprintf(of, "%s", msg);
+
+    if (sigpending(&pendingSigs) == -1)
+        return -1;
+
+    printSigset(of, "\t\t", &pendingSigs);
+
+    return 0;
+}
