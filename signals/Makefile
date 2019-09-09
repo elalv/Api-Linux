@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = intquit ouch sig_sender t_kill
+GEN_EXE = intquit ouch sig_receiver sig_sender t_kill
 
 LINUX_EXE =
 
@@ -26,6 +26,9 @@ ouch : ouch.c
 
 intquit : intquit.c
 	${CC} -D_BSD_SOURCE -o $@ intquit.c ${CFLAGS} ${IMPL_LDLIBS}
+
+sig_receiver : sig_receiver.c
+	${CC} -D_BSD_SOURCE -o $@ sig_receiver.c ${CFLAGS} ${IMPL_LDLIBS}
 
 clean : 
 	${RM} ${EXE} *.o
