@@ -1,6 +1,7 @@
 include ../Makefile.inc
 
-GEN_EXE = ignore_pending_sig intquit ouch sig_receiver sig_sender t_kill
+GEN_EXE = ignore_pending_sig intquit nonreentrant \
+	ouch sig_receiver sig_sender t_kill
 
 LINUX_EXE =
 
@@ -29,6 +30,9 @@ intquit : intquit.c
 
 sig_receiver : sig_receiver.c
 	${CC} -D_BSD_SOURCE -o $@ sig_receiver.c ${CFLAGS} ${IMPL_LDLIBS}
+
+nonreentrant : nonreentrant.o
+	${CC} -o $@ nonreentrant.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBCRYPT}
 
 clean : 
 	${RM} ${EXE} *.o
