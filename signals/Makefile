@@ -1,7 +1,7 @@
 include ../Makefile.inc
 
 GEN_EXE = ignore_pending_sig intquit nonreentrant \
-	ouch sig_receiver sig_sender t_kill
+	ouch sig_receiver sig_sender sigmask_longjmp t_kill
 
 LINUX_EXE =
 
@@ -33,6 +33,9 @@ sig_receiver : sig_receiver.c
 
 nonreentrant : nonreentrant.o
 	${CC} -o $@ nonreentrant.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBCRYPT}
+
+sigmask_siglongjmp.o : sigmask_longjmp.c
+	${CC} -o $@ -DUSE_SIGSETJMP -c sigmask_longjmp.c ${CFLAGS}
 
 clean : 
 	${RM} ${EXE} *.o
