@@ -1,7 +1,8 @@
 include ../Makefile.inc
 
 GEN_EXE = ignore_pending_sig intquit nonreentrant \
-	ouch sig_receiver sig_sender sigmask_longjmp t_kill
+	ouch sig_receiver sig_sender sigmask_longjmp t_kill \
+	t_sigaltstack
 
 LINUX_EXE =
 
