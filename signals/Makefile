@@ -38,6 +38,13 @@ nonreentrant : nonreentrant.o
 sigmask_siglongjmp.o : sigmask_longjmp.c
 	${CC} -o $@ -DUSE_SIGSETJMP -c sigmask_longjmp.c ${CFLAGS}
 
+# The 'all' target does not include the following target, because it is
+# intended to be built only on x86 platforms. For example, gcc on AAarch64
+# does not support the -m32 option.
+
+nonatomic_uint64 : nonatomic_uint64.c
+	${CC} -m32 -o $@ $< ${CFLAGS} ${IMPL_LDLIBS}
+
 clean : 
 	${RM} ${EXE} *.o
 
