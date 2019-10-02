@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = real_timer timed_read
+GEN_EXE = real_timer t_nanosleep timed_read
 
 LINUX_EXE =
 
