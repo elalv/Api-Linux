@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = ptmr_sigev_signal ptmr_sigev_thread real_timer t_nanosleep timed_read
 
-LINUX_EXE = demo_timerfd
+LINUX_EXE = demo_timerfd t_clock_nanosleep
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
