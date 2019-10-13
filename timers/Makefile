@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = clock_times ptmr_null_evp \
+GEN_EXE = clock_times cpu_burner ptmr_null_evp \
 	ptmr_sigev_signal ptmr_sigev_thread real_timer t_nanosleep timed_read
 
 LINUX_EXE = demo_timerfd t_clock_nanosleep
