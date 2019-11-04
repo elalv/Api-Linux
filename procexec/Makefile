@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = exit_handlers \
 	footprint fork_file_sharing fork_sig_sync fork_stdio_buf fork_whos_on_first \
-	t_fork t_vfork vfork_fd_test
+	multi_wait t_fork t_vfork vfork_fd_test
 
 LINUX_EXE =t_fork
 
