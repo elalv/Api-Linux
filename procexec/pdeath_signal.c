@@ -5,8 +5,12 @@
    or if there are ancestor subreaper processes.
 
 */
+#include <sys/syscall.h>
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+static int childPreSleep, childPostSleep;
 
 static void
 usageError(char *pname)
@@ -42,4 +46,89 @@ in order to explore the behavior of the prctl() PR_SET_PDEATHSIG setting\n\
         thread marks the process as a subreaper before creating any\n\
         additional threads.\n");
     exit(EXIT_FAILURE);
+}
+
+/* Child process's handler for "parent death" signal */
+
+static void
+handler(int sig, siginfo_t *si, void *ucontext)
+{
+    static int cnt = 0;
+
+    /* UNSAFE: This handler uses non-async-signal-safe functions
+       (printf(); see TLPI Section 21.1.2) */
+
+    if (cnt == 0)
+        printf("\n");
+
+    cnt++;
+    printf("*********** Child (%ld) got signal [%d]; "
+           "si_pid = %d; si_uid = %d\n",
+           (long)getpid(), cnt, si->si_pid, si->si_uid);
+    printf("            Parent PID is now %ld\n", (long)getppid());
+}
+
+/* Create the child process. This step is performed after the chain
+   of ancestors has been created. */
+
+static void
+createChild(void)
+{
+    struct sigaction sa;
+
+    printf("TID %ld (PID %ld) about to call fork()\n",
+           syscall(SYS_gettid), (long)getpid());
+
+    switch (fork())
+    {
+    case -1:
+        errExit("fork");
+
+    case 0:
+        printf("Final child %ld created; parent %ld\n",
+               (long)getpid(), (long)getppid());
+
+        /* Establish handler for "parent death" signal */
+
+        sa.sa_flags = SA_SIGINFO;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_sigaction = handler;
+        if (sigaction(SIGUSR1, &sa, NULL) == -1)
+            errExit("sigaction");
+
+        /* Perform a pre-sleep before requesting "parent death" signal;
+           this allows us to see what happens if the parent terminates
+           before the child requests the signal. */
+
+        if (childPreSleep > 0)
+        {
+            printf("\tChild (PID %ld) about to sleep %d sec before setting "
+                   "PR_SET_PDEATHSIG\n",
+                   (long)getpid(), childPreSleep);
+            sleep(childPreSleep);
+        }
+
+        /* Request death signal (SIGUSR1) when parent terminates */
+
+        printf("\tChild about to set PR_SET_PDEATHSIG\n");
+        if (prctl(PR_SET_PDEATHSIG, SIGUSR1) == -1)
+            errExit("prctl");
+
+        /* Now sleep, while ancestors terminate. Perform the sleep in
+           1-second steps to allow for the fact that signal handler
+           invocations will interrupt sleep() (and thus terminate
+           a single long sleep of 'childPostSleep' seconds). */
+
+        printf("\tChild (PID %ld) about to sleep %d seconds\n",
+               (long)getpid(), childPostSleep);
+
+        for (int j = 0; j < childPostSleep; j++)
+            sleep(1);
+
+        printf("Child about to exit\n");
+        exit(EXIT_SUCCESS);
+
+    default:
+        return;
+    }
 }
