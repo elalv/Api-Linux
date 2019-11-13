@@ -7,8 +7,20 @@
 */
 #include <sys/syscall.h>
 #include <sys/prctl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
+
+/* Structure defining parameters used by each thread */
+
+struct threadParam
+{
+    int sleepTime;
+    char **argv;
+    int threadNum;
+    bool createNextChild;
+};
 
 static int childPreSleep, childPostSleep;
 
@@ -131,4 +143,141 @@ createChild(void)
     default:
         return;
     }
+}
+
+/* Perform per-thread steps */
+
+static void
+performPerThreadSteps(struct threadParam *tparam)
+{
+    pid_t tid = syscall(SYS_gettid);
+
+    usleep(tparam->threadNum * 1000);
+
+    /* Is this the thread that is designated to create the next ancestor or
+       child process? */
+
+    if (tparam->createNextChild)
+    {
+        if (*(tparam->argv) != NULL)
+            createAncestor(tparam->argv);
+        else /* Last ancestor, so now we create the child */
+            createChild();
+    }
+
+    /* Sleep for the specified interval, and then terminate */
+
+    printf("\tTID %ld (PID: %ld) about to sleep %d sec\n",
+           (long)tid, (long)getpid(), tparam->sleepTime);
+
+    sleep(tparam->sleepTime);
+
+    printf("TID %ld (PID: %ld) terminating (after %d sec sleep)\n",
+           (long)tid, (long)getpid(), tparam->sleepTime);
+}
+
+/* Thread start function executed by each (noninitial) thread */
+
+static void *
+threadStartFunc(void *arg)
+{
+    struct threadParam *tparam = arg;
+
+    performPerThreadSteps(tparam);
+
+    free(tparam);
+    pthread_exit(NULL);
+}
+
+/* Create a set of threads in the calling process, as specified in
+   'ancestorArg'. The calling thread (which is the initial thread
+   in the process) terminates in this function. */
+
+static void
+createThreads(char *ancestorArg, char **argv)
+{
+    struct threadParam *tparam;
+    struct threadParam tparamInit;
+    bool nextParentMarked = false;
+
+    /* Split the argument into colon-separated tokens, and create an
+       additional thread for each token from the second onward. (The first
+       token will be handled by the initial thread in this process, which,
+       by definition, already exists.) */
+
+    for (int tnum = 0;; tnum++)
+    {
+        char *tokenp = strtok((tnum == 0) ? ancestorArg : NULL, ":");
+
+        if (tokenp == NULL)
+            break;
+
+        /* Allocate and populate the structure that will be employed
+           by the thread associated with this token. */
+
+        tparam = malloc(sizeof(struct threadParam));
+        if (tparam == NULL)
+            errExit("malloc");
+
+        /* If this token started with '+', remember that this thread should
+           be the one to call fork() to create the next descendant */
+
+        tparam->createNextChild = *tokenp == '+';
+
+        if (tparam->createNextChild)
+        {
+
+            /* There should be at most one '+' in 'ancestorArg' */
+
+            if (nextParentMarked)
+            {
+                fprintf(stderr, "Found '+' twice in one argument!\n");
+                exit(EXIT_FAILURE);
+            }
+
+            tokenp++; /* Advance past '+' */
+            nextParentMarked = true;
+        }
+
+        tparam->sleepTime = atoi(tokenp);
+        tparam->argv = argv + 1;
+        tparam->threadNum = tnum;
+
+        if (tnum == 0)
+        {
+
+            /* No need to create a thread for the first token, which is
+               handled in the initial thread */
+
+            tparamInit = *tparam;
+            free(tparam);
+        }
+        else
+        {
+
+            /* Create a new thread for this token; 'tparam' will be freed
+               in threadStartFunc(). */
+
+            pthread_t thr;
+
+            int s = pthread_create(&thr, NULL, threadStartFunc, tparam);
+            if (s != 0)
+            {
+                fprintf(stderr, "pthread_create() failed\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    /* The initial thread comes here... */
+
+    /* If no token was marked with '+', then by default the initial thread
+       will be the one to create the next descendant */
+
+    if (!nextParentMarked)
+        tparamInit.createNextChild = true;
+
+    performPerThreadSteps(&tparamInit);
+
+    pthread_exit(NULL);
 }
