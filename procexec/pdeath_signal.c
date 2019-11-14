@@ -12,6 +12,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#define errExit(msg)        \
+    do                      \
+    {                       \
+        perror(msg);        \
+        exit(EXIT_FAILURE); \
+    } while (0)
+
 /* Structure defining parameters used by each thread */
 
 struct threadParam
@@ -23,6 +30,8 @@ struct threadParam
 };
 
 static int childPreSleep, childPostSleep;
+
+static void createAncestor(char **argv);
 
 static void
 usageError(char *pname)
@@ -280,4 +289,51 @@ createThreads(char *ancestorArg, char **argv)
     performPerThreadSteps(&tparamInit);
 
     pthread_exit(NULL);
+}
+
+/* A function that (recursively, via performPerThreadSteps()) creates
+   the chain of ancestor processes. */
+
+static void
+createAncestor(char **argv)
+{
+    pid_t childPid;
+
+    usleep(10000);
+
+    /* Create a child process */
+
+    printf("TID %ld (PID %ld) about to call fork()\n",
+           syscall(SYS_gettid), (long)getpid());
+
+    childPid = fork();
+    if (childPid == -1)
+        errExit("fork");
+
+    /* Parent simply returns */
+
+    if (childPid != 0)
+        return;
+
+    /* Child falls through to following */
+
+    printf("Child %ld created; parent %ld\n", (long)getpid(),
+           (long)getppid());
+
+    /* If the argument started with '@', mark this process as a subreaper */
+
+    char *ancestorArg = *argv;
+
+    if (*ancestorArg == '@')
+    {
+        if (prctl(PR_SET_CHILD_SUBREAPER, 1) == -1)
+            errExit("prctl");
+        printf("\t*** PID %ld (child of %ld) became a subreaper\n",
+               (long)getpid(), (long)getppid());
+        ancestorArg++; /* Advance past '@' */
+    }
+
+    /* Create the threads for this process, as specified in 'ancestorArg' */
+
+    createThreads(ancestorArg, argv);
 }
