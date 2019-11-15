@@ -5,11 +5,18 @@
    or if there are ancestor subreaper processes.
 
 */
+#define _GNU_SOURCE
 #include <sys/syscall.h>
 #include <sys/prctl.h>
+#include <signal.h>
 #include <stdbool.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <unistd.h>
 #include <pthread.h>
 
 #define errExit(msg)        \
@@ -336,4 +343,26 @@ createAncestor(char **argv)
     /* Create the threads for this process, as specified in 'ancestorArg' */
 
     createThreads(ancestorArg, argv);
+}
+
+int main(int argc, char *argv[])
+{
+    /* Make 'stdout' unbuffered, to prevent the possibility of block buffering
+       if the output destination is not the terminal. This ensures that no
+       buffered output will be duplicated during fork(). */
+
+    setbuf(stdout, NULL);
+
+    if (argc < 3)
+        usageError(argv[0]);
+
+    childPreSleep = atoi(argv[1]);
+    childPostSleep = atoi(argv[2]);
+
+    if (argc > 3)
+        createAncestor(&argv[3]);
+    else /* Handle the degenerate case, for completeness */
+        createChild();
+
+    wait(NULL);
 }
