@@ -3,7 +3,7 @@ include ../Makefile.inc
 GEN_EXE = child_status envargs exit_handlers \
 	footprint fork_file_sharing fork_sig_sync fork_stdio_buf fork_whos_on_first \
 	make_zombie multi_SIGCHLD multi_wait orphan pdeath_signal \
-	t_execve t_fork t_vfork vfork_fd_test
+	t_execve t_execlp t_fork t_vfork vfork_fd_test
 
 LINUX_EXE =
 
