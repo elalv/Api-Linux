@@ -5,7 +5,7 @@ GEN_EXE = acct_on acct_view child_status closeonexec envargs exit_handlers \
 	make_zombie multi_SIGCHLD multi_wait orphan pdeath_signal \
 	t_execl t_execle t_execve t_execlp t_fork t_system t_vfork vfork_fd_test
 
-LINUX_EXE =
+LINUX_EXE = t_clone
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
