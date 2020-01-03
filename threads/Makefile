@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = simple_thread
+GEN_EXE = detached_attrib simple_thread
 
 LINUX_EXE =
 
