@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = detached_attrib prod_condvar prod_no_condvar simple_thread thread_incr thread_incr_mutex thread_multijoin
+GEN_EXE = detached_attrib prod_condvar prod_no_condvar pthread_barrier_demo simple_thread thread_incr thread_incr_mutex thread_multijoin
 
 LINUX_EXE =
 
