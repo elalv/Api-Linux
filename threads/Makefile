@@ -1,6 +1,7 @@
 include ../Makefile.inc
 
-GEN_EXE = detached_attrib prod_condvar prod_no_condvar pthread_barrier_demo simple_thread thread_incr thread_incr_mutex thread_multijoin
+GEN_EXE = detached_attrib prod_condvar prod_no_condvar pthread_barrier_demo simple_thread \
+	strerror_test thread_incr thread_incr_mutex thread_multijoin
 
 LINUX_EXE =
 
@@ -16,7 +17,15 @@ LDLIBS = ${IMPL_LDLIBS} ${IMPL_THREAD_FLAGS}
 strerror_test: strerror_test.o strerror.o
 	${CC} -o $@ strerror_test.o strerror.o \
 		${CFLAGS} ${LDLIBS}
-		
+
+strerror_test_tsd: strerror_test.o strerror_tsd.o
+	${CC} -o $@ strerror_test.o strerror_tsd.o \
+		${CFLAGS} ${LDLIBS}
+
+strerror_test_tls: strerror_test.o strerror_tls.o
+	${CC} -o $@ strerror_test.o strerror_tls.o \
+	    	${CFLAGS} ${LDLIBS}
+
 clean : 
 	${RM} ${EXE} *.o
 
