@@ -13,6 +13,10 @@ allgen : ${GEN_EXE}
 CFLAGS = ${IMPL_CFLAGS} ${IMPL_THREAD_FLAGS}
 LDLIBS = ${IMPL_LDLIBS} ${IMPL_THREAD_FLAGS}
 
+strerror_test: strerror_test.o strerror.o
+	${CC} -o $@ strerror_test.o strerror.o \
+		${CFLAGS} ${LDLIBS}
+		
 clean : 
 	${RM} ${EXE} *.o
 
