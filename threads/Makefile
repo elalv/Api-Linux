@@ -3,7 +3,7 @@ include ../Makefile.inc
 GEN_EXE = detached_attrib one_time_init prod_condvar prod_no_condvar pthread_barrier_demo simple_thread \
 	strerror_test strerror_test_tsd thread_cancel thread_incr thread_incr_mutex thread_multijoin
 
-LINUX_EXE =
+LINUX_EXE = strerror_test_tls
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
