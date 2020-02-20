@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = sched_set t_setpriority
+GEN_EXE = sched_set sched_view t_setpriority
 
 LINUX_EXE =
 
