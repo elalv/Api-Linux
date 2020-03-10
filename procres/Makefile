@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE =
+GEN_EXE = rusage_wait
 
 LINUX_EXE = rlimit_nproc
 
