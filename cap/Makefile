@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = 
 
-LINUX_EXE = cap_launcher cap_text check_password_caps demo_file_caps show_secbits
+LINUX_EXE = cap_launcher cap_text check_password_caps demo_file_caps show_secbits t_cap_get_file
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
