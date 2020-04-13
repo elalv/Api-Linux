@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = pipe_ls_wc pipe_sync simple_pipe
+GEN_EXE = pipe_ls_wc pipe_sync popen_glob simple_pipe
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
