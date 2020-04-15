@@ -1,12 +1,14 @@
 include ../Makefile.inc
 
-GEN_EXE = pipe_ls_wc pipe_sync popen_glob simple_pipe
+GEN_EXE = fifo_seqnum_server pipe_ls_wc pipe_sync popen_glob simple_pipe
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
 all : ${EXE}
 
 allgen : ${GEN_EXE}
+
+fifo_seqnum_server.o : fifo_seqnum.h
 
 clean :
 	${RM} ${EXE} *.o
