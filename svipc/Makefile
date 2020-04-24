@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = svmsg_demo_server
+GEN_EXE = svmsg_demo_server t_ftok
 
 LINUX_EXE =
 
