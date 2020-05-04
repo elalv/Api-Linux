@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = svmsg_create svmsg_receive svmsg_send
+GEN_EXE = svmsg_create svmsg_receive svmsg_rm svmsg_send
 
 LINUX_EXE =
 
