@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = svmsg_chqbytes svmsg_create svmsg_receive svmsg_rm svmsg_send
+GEN_EXE = svmsg_chqbytes svmsg_file_server svmsg_create svmsg_receive svmsg_rm svmsg_send
 
 LINUX_EXE = svmsg_ls
 
@@ -12,6 +12,8 @@ allgen : ${GEN_EXE}
 
 clean :
 	${RM} ${EXE} *.o
+
+svmsg_file_server.o : svmsg_file.h
 
 showall :
 	@ echo ${EXE}
