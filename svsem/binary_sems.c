@@ -15,3 +15,12 @@ initSemAvailable(int semId, int semNum)
     arg.val = 1;
     return semctl(semId, semNum, SETVAL, arg);
 }
+
+int /* Initialize semaphore to 0 (i.e., "in use") */
+initSemInUse(int semId, int semNum)
+{
+    union semun arg;
+
+    arg.val = 0;
+    return semctl(semId, semNum, SETVAL, arg);
+}

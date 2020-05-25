@@ -9,4 +9,6 @@
 
 int initSemAvailable(int semId, int semNum);
 
+int initSemInUse(int semId, int semNum);
+
 #endif
