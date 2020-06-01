@@ -12,3 +12,11 @@
    NB: The semantics of System V semaphores require that the "set"
    value for a flag is 0 and the "clear" value is 1.
 */
+#ifndef EVENT_FLAGS_H
+#define EVENT_FLAGS_H /* Prevent accidental double inclusion */
+
+#include "tlpi_hdr.h"
+
+int waitForEventFlag(int semId, int semNum);
+
+#endif

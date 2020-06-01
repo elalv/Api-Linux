@@ -1,0 +1,30 @@
+/* event_flags.c
+
+   Implement an event flags protocol using System V semaphores.
+
+   See event_flags.h for a summary of the interface.
+*/
+#include <sys/types.h>
+#include <sys/sem.h>
+#include "semun.h" /* Definition of semun union */
+#include "event_flags.h"
+#include "tlpi_hdr.h"
+
+/* Wait for the specified flag to become "set" (0) */
+
+int waitForEventFlag(int semId, int semNum)
+{
+    struct sembuf sops;
+
+    sops.sem_num = semNum;
+    sops.sem_op = 0; /* Wait for semaphore to equal 0 */
+    sops.sem_flg = 0;
+
+    /* Waiting for a semaphore to become zero may block, so we
+       program to retry if interrupted by a signal handler */
+
+    while (semop(semId, &sops, 1) == -1)
+        if (errno != EINTR)
+            return -1;
+    return 0;
+}
