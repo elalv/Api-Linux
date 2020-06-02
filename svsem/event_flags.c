@@ -28,3 +28,13 @@ int waitForEventFlag(int semId, int semNum)
             return -1;
     return 0;
 }
+
+/* "Clear" the event flag (give it the value 1) */
+
+int clearEventFlag(int semId, int semNum)
+{
+    union semun arg;
+
+    arg.val = 1;
+    return semctl(semId, semNum, SETVAL, arg);
+}
