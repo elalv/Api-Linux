@@ -21,4 +21,6 @@ int waitForEventFlag(int semId, int semNum);
 
 int clearEventFlag(int semId, int semNum);
 
+int setEventFlag(int semId, int semNum);
+
 #endif

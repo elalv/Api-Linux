@@ -38,3 +38,13 @@ int clearEventFlag(int semId, int semNum)
     arg.val = 1;
     return semctl(semId, semNum, SETVAL, arg);
 }
+
+/* "Set" the event flag (give it the value 0) */
+
+int setEventFlag(int semId, int semNum)
+{
+    union semun arg;
+
+    arg.val = 0;
+    return semctl(semId, semNum, SETVAL, arg);
+}
