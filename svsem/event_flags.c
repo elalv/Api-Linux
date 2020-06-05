@@ -48,3 +48,17 @@ int setEventFlag(int semId, int semNum)
     arg.val = 0;
     return semctl(semId, semNum, SETVAL, arg);
 }
+
+/* Get current state of event flag */
+
+int getFlagState(int semId, int semNum, Boolean *isSet)
+{
+    union semun dummy;
+
+    int sem_val = semctl(semId, semNum, GETVAL, dummy);
+    if (sem_val == -1)
+        return -1;
+
+    *isSet = (sem_val == 0) ? TRUE : FALSE;
+    return 0;
+}

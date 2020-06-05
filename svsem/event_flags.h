@@ -23,4 +23,6 @@ int clearEventFlag(int semId, int semNum);
 
 int setEventFlag(int semId, int semNum);
 
+int getFlagState(int semId, int semNum, Boolean *isSet);
+
 #endif
