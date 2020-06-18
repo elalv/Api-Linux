@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = svshm_xfr_writer
+GEN_EXE = svshm_xfr_reader svshm_xfr_writer
 
 LINUX_EXE =
 
@@ -15,7 +15,7 @@ LDLIBS = ${IMPL_LDLIBS} ${IMPL_THREAD_FLAGS}
 clean :
 	${RM} ${EXE} *.o
 
-svshm_xfr_writer.o: svshm_xfr.h
+svshm_xfr_reader.o svshm_xfr_writer.o: svshm_xfr.h
 
 showall :
 	@ echo ${EXE}
