@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = svshm_xfr_reader svshm_xfr_writer
+GEN_EXE = svshm_mon svshm_xfr_reader svshm_xfr_writer
 
 LINUX_EXE =
 
