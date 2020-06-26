@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = svshm_attach svshm_create svshm_mon svshm_xfr_reader svshm_xfr_writer
 
-LINUX_EXE = svshm_info
+LINUX_EXE = svshm_info svshm_lock
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
