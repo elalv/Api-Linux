@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = anon_mmap mmcat t_mmap
+GEN_EXE = anon_mmap mmcat mmcopy t_mmap
 
 LINUX_EXE =
 
