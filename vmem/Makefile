@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = memlock
+GEN_EXE = memlock madvise_dontneed
 
 LINUX_EXE = t_mprotect
 
