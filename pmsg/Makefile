@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = pmsg_create pmsg_getattr pmsg_unlink
+GEN_EXE = pmsg_create pmsg_getattr pmsg_send pmsg_unlink
 
 LINUX_EXE =
 
