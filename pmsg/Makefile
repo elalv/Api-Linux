@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = mq_notify_sig pmsg_create pmsg_getattr pmsg_receive pmsg_send pmsg_unlink
+GEN_EXE = mq_notify_sig mq_notify_thread pmsg_create pmsg_getattr pmsg_receive pmsg_send pmsg_unlink
 
 LINUX_EXE =
 
