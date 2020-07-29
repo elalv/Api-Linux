@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = psem_create psem_unlink
+GEN_EXE = psem_create psem_unlink psem_wait
 
 LINUX_EXE =
 
