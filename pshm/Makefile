@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = pshm_create
+GEN_EXE = pshm_create pshm_write
 
 LINUX_EXE =
 
