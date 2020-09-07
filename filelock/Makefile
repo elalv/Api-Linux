@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_flock
+GEN_EXE = i_fcntl_locking t_flock
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
