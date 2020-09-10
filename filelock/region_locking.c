@@ -25,3 +25,9 @@ lockRegion(int fd, int type, int whence, int start, int len)
 {
     return lockReg(fd, F_SETLK, type, whence, start, len);
 }
+
+int /* Lock a file region using blocking F_SETLKW */
+lockRegionWait(int fd, int type, int whence, int start, int len)
+{
+    return lockReg(fd, F_SETLKW, type, whence, start, len);
+}

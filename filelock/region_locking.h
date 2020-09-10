@@ -9,4 +9,6 @@
 
 int lockRegion(int fd, int type, int whence, int start, int len);
 
+int lockRegionWait(int fd, int type, int whence, int start, int len);
+
 #endif
