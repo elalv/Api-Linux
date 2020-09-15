@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = us_xfr_sv
+GEN_EXE = us_xfr_cl us_xfr_sv
 
 LINUX_EXE =
 
@@ -10,7 +10,7 @@ all : ${EXE}
 
 allgen : ${GEN_EXE}
 
-us_xfr_sv.o : us_xfr.h
+us_xfr_sv.o us_xfr_cl.o : us_xfr.h
 
 clean :
 	${RM} ${EXE} *.o
