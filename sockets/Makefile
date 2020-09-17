@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = ud_ucase_sv us_xfr_cl us_xfr_sv
+GEN_EXE = ud_ucase_sv ud_ucase_cl us_xfr_cl us_xfr_sv
 
 LINUX_EXE =
 
@@ -12,7 +12,7 @@ allgen : ${GEN_EXE}
 
 us_xfr_sv.o us_xfr_cl.o : us_xfr.h
 
-ud_ucase_sv.o : ud_ucase.h
+ud_ucase_sv.o ud_ucase_cl.o : ud_ucase.h
 
 clean :
 	${RM} ${EXE} *.o
