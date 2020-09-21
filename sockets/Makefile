@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = ud_ucase_sv ud_ucase_cl us_xfr_cl us_xfr_sv
 
-LINUX_EXE =
+LINUX_EXE = us_abstract_bind
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
