@@ -148,3 +148,33 @@ int inetListen(const char *service, int backlog, socklen_t *addrlen)
 {
     return inetPassiveSocket(service, SOCK_STREAM, addrlen, TRUE, backlog);
 }
+
+/* Create socket bound to wildcard IP address + port given in
+   'service'. Return socket descriptor on success, or -1 on error. */
+
+int inetBind(const char *service, int type, socklen_t *addrlen)
+{
+    return inetPassiveSocket(service, type, addrlen, FALSE, 0);
+}
+
+/* Given a socket address in 'addr', whose length is specified in
+   'addrlen', return a null-terminated string containing the host and
+   service names in the form "(hostname, port#)". The string is
+   returned in the buffer pointed to by 'addrStr', and this value is
+   also returned as the function result. The caller must specify the
+   size of the 'addrStr' buffer in 'addrStrLen'. */
+
+char *
+inetAddressStr(const struct sockaddr *addr, socklen_t addrlen,
+               char *addrStr, int addrStrLen)
+{
+    char host[NI_MAXHOST], service[NI_MAXSERV];
+
+    if (getnameinfo(addr, addrlen, host, NI_MAXHOST,
+                    service, NI_MAXSERV, NI_NUMERICSERV) == 0)
+        snprintf(addrStr, addrStrLen, "(%s, %s)", host, service);
+    else
+        snprintf(addrStr, addrStrLen, "(?UNKNOWN?)");
+
+    return addrStr;
+}
