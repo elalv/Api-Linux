@@ -10,6 +10,8 @@
 
 int inetConnect(const char *host, const char *service, int type);
 
+int inetListen(const char *service, int backlog, socklen_t *addrlen);
+
 #define IS_ADDR_STR_LEN 4096
                         /* Suggested length for string buffer that caller
                            should pass to inetAddressStr(). Must be greater
