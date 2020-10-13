@@ -29,3 +29,30 @@ int unixBuildAddress(const char *path, struct sockaddr_un *addr)
         return -1;
     }
 }
+
+/* Create a UNIX domain socket of type 'type' and connect it
+   to the remote address specified by the 'path'.
+   Return the socket descriptor on success, or -1 on error */
+
+int unixConnect(const char *path, int type)
+{
+    struct sockaddr_un addr;
+
+    if (unixBuildAddress(path, &addr) == -1)
+        return -1;
+
+    int sd = socket(AF_UNIX, type, 0);
+    if (sd == -1)
+        return -1;
+
+    if (connect(sd, (struct sockaddr *)&addr,
+                sizeof(struct sockaddr_un)) == -1)
+    {
+        int savedErrno = errno;
+        close(sd); /* Might change 'errno' */
+        errno = savedErrno;
+        return -1;
+    }
+
+    return sd;
+}
