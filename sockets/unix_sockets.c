@@ -56,3 +56,28 @@ int unixConnect(const char *path, int type)
 
     return sd;
 }
+
+/* Create a UNIX domain socket and bind it to 'path'.
+   Return the socket descriptor on success, or -1 on error. */
+
+int unixBind(const char *path, int type)
+{
+    struct sockaddr_un addr;
+
+    if (unixBuildAddress(path, &addr) == -1)
+        return -1;
+
+    int sd = socket(AF_UNIX, type, 0);
+    if (sd == -1)
+        return -1;
+
+    if (bind(sd, (struct sockaddr *)&addr, sizeof(struct sockaddr_un)) == -1)
+    {
+        int savedErrno = errno;
+        close(sd); /* Might change 'errno' */
+        errno = savedErrno;
+        return -1;
+    }
+
+    return sd;
+}

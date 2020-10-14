@@ -12,4 +12,6 @@ int unixBuildAddress(const char *path, struct sockaddr_un *addr);
 
 int unixConnect(const char *path, int type);
 
+int unixBind(const char *path, int type);
+
 #endif
