@@ -1,7 +1,7 @@
 include ../Makefile.inc
 
 GEN_EXE = i6d_ucase_sv i6d_ucase_cl \
-	is_seqnum_sv is_seqnum_cl is_seqnum_v2_sv is_seqnum_v2_cl t_gethostbyname ud_ucase_sv ud_ucase_cl us_xfr_cl us_xfr_sv
+	is_seqnum_sv is_seqnum_cl is_seqnum_v2_sv is_seqnum_v2_cl t_gethostbyname ud_ucase_sv ud_ucase_cl us_xfr_cl us_xfr_sv us_xfr_v2_sv
 
 LINUX_EXE = us_abstract_bind
 
@@ -18,6 +18,8 @@ is_seqnum_sv.o is_seqnum_cl.o : is_seqnum.h
 is_seqnum_v2_sv.o is_seqnum_v2_cl.o : is_seqnum_v2.h
 
 us_xfr_sv.o us_xfr_cl.o : us_xfr.h
+
+us_xfr_v2_sv.o : us_xfr_v2.h
 
 ud_ucase_sv.o ud_ucase_cl.o : ud_ucase.h
 
