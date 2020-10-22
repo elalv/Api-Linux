@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = i6d_ucase_sv i6d_ucase_cl id_echo_sv \
+GEN_EXE = i6d_ucase_sv i6d_ucase_cl id_echo_cl id_echo_sv \
 	is_seqnum_sv is_seqnum_cl is_seqnum_v2_sv is_seqnum_v2_cl \
 	t_gethostbyname t_getservbyname ud_ucase_sv ud_ucase_cl us_xfr_cl us_xfr_sv us_xfr_v2_cl us_xfr_v2_sv
 
@@ -14,7 +14,7 @@ allgen : ${GEN_EXE}
 
 i6d_ucase_sv.o i6d_ucase_cl.o : i6d_ucase.h
 
-id_echo_sv.o : id_echo.h
+id_echo_sv.o id_echo_cl.o : id_echo.h
 
 is_seqnum_sv.o is_seqnum_cl.o : is_seqnum.h
 
