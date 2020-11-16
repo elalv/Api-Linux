@@ -74,3 +74,65 @@ int sendfd(int sockfd, int fd)
 
     return 0;
 }
+
+/* Receive a file descriptor on a connected UNIX domain socket. Returns
+   the received file descriptor on success, or -1 on error. */
+
+int recvfd(int sockfd)
+{
+    struct msghdr msgh;
+    struct iovec iov;
+    int data, fd;
+    ssize_t nr;
+
+    /* Allocate a char buffer for the ancillary data. See the comments
+       in sendfd() */
+    union
+    {
+        char buf[CMSG_SPACE(sizeof(int))];
+        struct cmsghdr align;
+    } controlMsg;
+    struct cmsghdr *cmsgp;
+
+    /* The 'msg_name' field can be used to obtain the address of the
+       sending socket. However, we do not need this information. */
+
+    msgh.msg_name = NULL;
+    msgh.msg_namelen = 0;
+
+    /* Specify buffer for receiving real data */
+
+    msgh.msg_iov = &iov;
+    msgh.msg_iovlen = 1;
+    iov.iov_base = &data; /* Real data is an 'int' */
+    iov.iov_len = sizeof(int);
+
+    /* Set 'msghdr' fields that describe ancillary data */
+
+    msgh.msg_control = controlMsg.buf;
+    msgh.msg_controllen = sizeof(controlMsg.buf);
+
+    /* Receive real plus ancillary data; content of real data is ignored */
+
+    nr = recvmsg(sockfd, &msgh, 0);
+    if (nr == -1)
+        return -1;
+
+    cmsgp = CMSG_FIRSTHDR(&msgh);
+
+    /* Check the validity of the 'cmsghdr' */
+
+    if (cmsgp == NULL ||
+        cmsgp->cmsg_len != CMSG_LEN(sizeof(int)) ||
+        cmsgp->cmsg_level != SOL_SOCKET ||
+        cmsgp->cmsg_type != SCM_RIGHTS)
+    {
+        errno = EINVAL;
+        return -1;
+    }
+
+    /* Return the received file descriptor to our caller */
+
+    memcpy(&fd, CMSG_DATA(cmsgp), sizeof(int));
+    return fd;
+}
