@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = new_intr no_echo
+GEN_EXE = new_intr no_echo test_tty_functions
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
