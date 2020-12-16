@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = t_select
+GEN_EXE = poll_pipes t_select
 
 LINUX_EXE =
 
