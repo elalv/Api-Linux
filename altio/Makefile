@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE = demo_sigio poll_pipes t_select
 
-LINUX_EXE =
+LINUX_EXE = epoll_input
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
