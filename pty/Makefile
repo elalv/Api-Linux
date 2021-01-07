@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = script
+GEN_EXE = script unbuffer
 
 LINUX_EXE =
 
