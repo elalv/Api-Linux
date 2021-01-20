@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE = alloc_mem
+GEN_EXE = alloc_mem fork_bomb
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
