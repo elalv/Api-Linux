@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE =
 
-LINUX_EXE = cred_launcher demo_userns
+LINUX_EXE = cred_launcher demo_userns demo_uts_namespaces
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
