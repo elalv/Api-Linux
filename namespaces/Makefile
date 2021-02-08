@@ -1,6 +1,6 @@
 include ../Makefile.inc
 
-GEN_EXE =
+GEN_EXE = make_orphans
 
 LINUX_EXE = cred_launcher demo_userns demo_uts_namespaces hostname
 
