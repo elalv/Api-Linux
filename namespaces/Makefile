@@ -3,7 +3,7 @@ include ../Makefile.inc
 GEN_EXE = make_orphans orphan
 
 LINUX_EXE = cred_launcher demo_userns demo_uts_namespaces hostname multi_pidns ns_capable ns_child_exec \
-	ns_exec ns_run
+	ns_exec ns_run pidns_init_sleep
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
