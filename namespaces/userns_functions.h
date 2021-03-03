@@ -9,4 +9,6 @@
 
 void display_creds_and_caps(char *str);
 
+int update_map(char *mapping, char *map_file);
+
 #endif
