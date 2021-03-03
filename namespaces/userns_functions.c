@@ -76,3 +76,65 @@ int update_map(char *mapping, char *map_file)
     close(fd);
     return status;
 }
+
+/* Linux 3.19 made a change in the handling of setgroups(2) and the
+   'gid_map' file to address a security issue. The issue allowed
+   *unprivileged* users to employ user namespaces in order to drop groups
+   from their supplementary group list using setgroups(2).  (Formerly, this
+   possibility was available only to privileged processes.) The effect was to
+   create possibilities for unprivileged process to access files for which
+   they would not otherwise have had permission. (For further details, see
+   the user_namespaces(7) man page.)
+
+   The upshot of the 3.19 changes is that in order for a process lacking
+   suitable privileges (i.e., one that lacks the CAP_SETGID capability in
+   the parent user namespace) to update the 'gid_map' file, use of the
+   setgroups() system call in this user namespace must first be disabled
+   by writing "deny" to one of the /proc/PID/setgroups files for this
+   namespace.  That is the purpose of the following function.
+
+   Returns: 0 on success; -1 on error. */
+
+int proc_setgroups_write(pid_t child_pid, char *str)
+{
+    char setgroups_path[PATH_MAX];
+
+    snprintf(setgroups_path, PATH_MAX, "/proc/%ld/setgroups",
+             (long)child_pid);
+
+    int fd = open(setgroups_path, O_RDWR);
+    if (fd == -1)
+    {
+
+        /* We may be on a system that doesn't support /proc/PID/setgroups.
+           In that case, the file won't exist, and the system won't impose
+           the restrictions that Linux 3.19 added. That's fine: we don't
+           need to do anything in order to permit 'gid_map' to be updated.
+
+           However, if the error from open() was something other than the
+           ENOENT error that is expected for that case, let the user know. */
+
+        if (errno == ENOENT)
+        {
+            return 0;
+        }
+        else
+        {
+            fprintf(stderr, "ERROR: open %s: %s\n", setgroups_path,
+                    strerror(errno));
+            return -1;
+        }
+    }
+
+    int status = 0;
+
+    if (write(fd, str, strlen(str)) == -1)
+    {
+        fprintf(stderr, "ERROR: writing to %s: %s\n", setgroups_path,
+                strerror(errno));
+        status = -1;
+    }
+
+    close(fd);
+    return status;
+}

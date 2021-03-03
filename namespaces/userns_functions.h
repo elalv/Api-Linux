@@ -11,4 +11,6 @@ void display_creds_and_caps(char *str);
 
 int update_map(char *mapping, char *map_file);
 
+int proc_setgroups_write(pid_t child_pid, char *str);
+
 #endif
