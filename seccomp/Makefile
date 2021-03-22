@@ -2,7 +2,7 @@ include ../Makefile.inc
 
 GEN_EXE =
 
-LINUX_EXE = dump_seccomp_filter libseccomp_demo
+LINUX_EXE = dump_seccomp_filter libseccomp_demo seccomp_arg64
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
