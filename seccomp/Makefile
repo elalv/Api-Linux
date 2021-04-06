@@ -21,4 +21,14 @@ showall :
 libseccomp_demo : libseccomp_demo.c
 	${CC} -o $@ libseccomp_demo.c ${CFLAGS} ${IMPL_LDLIBS} -lseccomp
 
+# See the seccomp_multiarch.c source code for information on the library
+# that must be installed before building seccomp_multiarch_i386
+
+seccomp_multiarch : seccomp_multiarch.o
+	${CC} -o $@ seccomp_multiarch.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBRT}
+
+seccomp_multiarch_i386 : seccomp_multiarch.c
+	${CC} -m32 -o $@ seccomp_multiarch.c ${CFLAGS} \
+		${IMPL_LDLIBS} ${LINUX_LIBRT}
+
 ${EXE} : ${TLPI_LIB}		# True as a rough approximation
