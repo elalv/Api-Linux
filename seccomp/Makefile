@@ -4,7 +4,7 @@ GEN_EXE =
 
 LINUX_EXE = dump_seccomp_filter libseccomp_demo seccomp_arg64 seccomp_bench \
 	seccomp_control_open seccomp_deny_open seccomp_deny_syscall seccomp_launch \
-	seccomp_logging seccomp_perf
+	seccomp_logging seccomp_perf seccomp_trap_sigsys
 
 EXE = ${GEN_EXE} ${LINUX_EXE}
 
