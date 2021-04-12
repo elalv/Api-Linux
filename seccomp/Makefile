@@ -18,6 +18,8 @@ clean :
 showall :
 	@ echo ${EXE}
 
+seccomp_unotify_mkdir : seccomp_unotify_mkdir.o seccomp_functions.o
+
 libseccomp_demo : libseccomp_demo.c
 	${CC} -o $@ libseccomp_demo.c ${CFLAGS} ${IMPL_LDLIBS} -lseccomp
 
